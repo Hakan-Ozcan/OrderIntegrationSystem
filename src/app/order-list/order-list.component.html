@@ -1,11 +1,11 @@
 <table>
   <thead>
     <tr>
-      <th>Sipariş Numarası</th>
+      <th>ID</th>
       <th>Müşteri Adı</th>
       <th>Sipariş Tarihi</th>
-      <th>Ödeme Türü</th>
-      <th>Sipariş Durumu</th>
+      <th>Ödeme Tipi</th>
+      <th>Statü</th>
       <th></th>
     </tr>
   </thead>
@@ -15,13 +15,12 @@
       <td>{{ order.customerName }}</td>
       <td>{{ order.orderDate }}</td>
       <td>{{ order.paymentType }}</td>
-      <td>
-        <span *ngIf="!order.editable">{{ order.status }}</span>
-        <input *ngIf="order.editable" [(ngModel)]="order.status" (keydown.enter)="saveOrderStatus(order)" />
+      <td [contentEditable]="order.editable" (blur)="onStatusChange(order, $event.target.innerHTML)">
+        {{ order.status }}
       </td>
       <td>
-        <button *ngIf="!order.editable" (click)="editOrderStatus(order)">Düzenle</button>
-        <button *ngIf="order.editable" (click)="cancelEditOrderStatus(order)">İptal</button>
+        <button *ngIf="!order.editable" (click)="onEdit(order)">Düzenle</button>
+        <button *ngIf="order.editable" (click)="onCancelEdit(order)">Vazgeç</button>
       </td>
     </tr>
   </tbody>
