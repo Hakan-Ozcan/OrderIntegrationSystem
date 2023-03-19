@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Bootstrap Tablo Örneği</title>
+</head>
+
+<body>
+  <div class="container">
+    <h2>Bootstrap Tablo Örneği</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Sıra No</th>
+          <th>Seçiniz</th>
+          <th>Müşteri Sipariş No</th>
+          <th>Çıkış Adresi</th>
+          <th>Varış Adresi</th>
+          <th>Miktar</th>
+          <th>Miktar Birim</th>
+          <th>Ağırlık</th>
+          <th>Ağırlık Birim</th>
+          <th>Malzeme Kodu</th>
+          <th>Not</th>
+          <th>Statü</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of data; let i=index">
+          <td>{{ i + 1}}</td>
+          <td><input type="radio" [name]="selectedOrder" [value]="item.siparisID" (change)="onOrderSelected($event)"></td>
+          <td>{{ item.musteriSiparisNo }}</td>
+          <td>{{ item.cikisAdresi }}</td>
+          <td>{{ item.varisAdresi }}</td>
+          <td>{{ item.miktar }}</td>
+          <td>{{ item.miktarBirim }}</td>
+          <td>{{ item.agirlik }}</td>
+          <td>{{ item.agirlikBirim }}</td>
+          <td>{{ item.malzemeKodu }}</td>
+          <td>{{ item.not }}</td>
+          <td>{{ item.not }}</td>
+          <td>
+            <button (click)="openModal()">Düzenle</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>
+
+<button class="btn btn-primary" (click)="openModal()">Modal Aç</button>
+
+<app-order-update-modal [title]="modalTitle" (saveModal)="saveData()"></app-order-update-modal>
+
+

@@ -24,24 +24,24 @@ namespace AcceptOrderApi.Controllers
             _orderDataManager = orderDataManager;
             _logger = logger;
             _configuration = configuration;
-            _busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
-            {
-                var host = cfg.Host(new Uri(_configuration.GetSection("RabbitMQ:Host").Value), hst =>
-                {
-                    hst.Username(_configuration.GetSection("RabbitMQ:UserName").Value);
-                    hst.Password(_configuration.GetSection("RabbitMQ:Password").Value);
-                });
+            // _busControl = Bus.Factory.CreateUsingRabbitMq(cfg =>
+            // {
+            //     var host = cfg.Host(new Uri(_configuration.GetSection("RabbitMQ:Host").Value), hst =>
+            //     {
+            //         hst.Username(_configuration.GetSection("RabbitMQ:UserName").Value);
+            //         hst.Password(_configuration.GetSection("RabbitMQ:Password").Value);
+            //     });
 
-                // Exchange yapılandırması
-                cfg.ExchangeType = ExchangeType.Direct;
-                cfg.ReceiveEndpoint(host, _configuration.GetSection("RabbitMQ:QueueName").Value, e =>
-                {
-                    e.BindMessageExchanges = false;
-                    e.Consumer<SubmitOrderConsumer>(_orderDataManager); // Consumer tanımlaması
-                });
-            });
+            //     // Exchange yapılandırması
+            //     cfg.ExchangeType = ExchangeType.Direct;
+            //     cfg.ReceiveEndpoint(host, _configuration.GetSection("RabbitMQ:QueueName").Value, e =>
+            //     {
+            //         e.BindMessageExchanges = false;
+            //         e.Consumer<SubmitOrderConsumer>(_orderDataManager); // Consumer tanımlaması
+            //     });
+            // });
 
-            _busControl.Start();
+            // _busControl.Start();
         }
 
         [HttpGet]

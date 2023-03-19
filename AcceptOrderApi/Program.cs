@@ -15,9 +15,18 @@ var builder = WebApplication.CreateBuilder(args);
 Log.Logger = new LoggerConfiguration()
     .MinimumLevel.Override("Microsoft", LogEventLevel.Warning)
     .Enrich.FromLogContext()
-    .WriteTo.RabbitMQ(CreateUsingRabbitMq(), "my-exchange")
+    // .WriteTo.RabbitMQ(CreateUsingRabbitMq(), "my-exchange")
     .WriteTo.Console()
     .CreateLogger();
+builder.Services.AddCors(options =>
+{
+  options.AddDefaultPolicy(builder =>
+  {
+    builder.AllowAnyOrigin()
+           .AllowAnyHeader()
+           .AllowAnyMethod();
+  });
+});
 
 builder.Host.UseSerilog((builderContext, loggerConfiguration) => loggerConfiguration
     .ReadFrom.Configuration(builderContext.Configuration)
@@ -44,6 +53,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 
 }
+app.UseCors();
 
 app.UseHttpsRedirection();
 
